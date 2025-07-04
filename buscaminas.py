@@ -3,7 +3,7 @@
 import tkinter as tk
 import random
 
-# Dimensiones del juego
+# Dimensiones del tablero
 filas = 10
 columnas = 10
 num_minas = 15
@@ -15,7 +15,7 @@ ventana.resizable(False, False)
 ventana.title("Buscaminas")
 ventana.iconbitmap("buscaminas.ico")
 
-# Crear el marco superior para el contador y el botón de reinicio
+# marco del contador y botón de reinicio
 marco_superior = tk.Frame(ventana)
 marco_superior.pack(fill=tk.X, pady=5)
 
@@ -29,11 +29,11 @@ contador_label.pack(side="left", padx=20)
 game_over_label = tk.Label(marco_superior, text="", font=("Arial", 12), fg="red")
 game_over_label.pack(side="left", expand=True)
 
-# Botón de reinicio con un símbolo de reload
+# Botón de reinicio
 boton_reinicio = tk.Button(marco_superior, text="🔄", font=("Arial", 14), command=lambda: reiniciar_juego())
 boton_reinicio.pack(side="right", padx=20)
 
-# Crear un marco para contener la cuadrícula en la parte inferior
+# cuadrícula inferior 
 
 marco_juego = tk.Frame(ventana)
 marco_juego.pack(side="bottom", pady=10)
@@ -66,7 +66,7 @@ def calcular_adyacencia():
                            and tablero[fila + i][columna + j] == -1)
             tablero[fila][columna] = contador
 
-# Función para revelar una celda al hacer clic
+# Función revelar celda al hacer clic derecho
 def revelar_celda(fila, columna):
     if botones[fila][columna]["text"] == "🚩":
         return  # No permitir revelar una celda con bandera

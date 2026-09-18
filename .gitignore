@@ -1,0 +1,10 @@
+__pycache__/
+build/
+dist/
+.vs/
+.codegraph/
+.cursor/
+.gemini/
+opencode.jsonc
+AGENTS.md
+GEMINI.md

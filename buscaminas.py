@@ -13,7 +13,10 @@ ventana = tk.Tk()
 ventana.geometry("300x420")
 ventana.resizable(False, False)
 ventana.title("Buscaminas")
-ventana.iconbitmap("buscaminas.ico")
+try:
+    ventana.iconbitmap("buscaminas.ico")
+except tk.TclError:
+    pass
 
 # marco del contador y botón de reinicio
 marco_superior = tk.Frame(ventana)
@@ -75,12 +78,19 @@ def revelar_celda(fila, columna):
     if valor == -1:
         for f in range(filas):
             for c in range(columnas):
-                if tablero[f][c] == -1:
-                    botones[f][c].config(text="💣", fg="red")
+                if botones[f][c]["text"] == "🚩":
+                    # Bandera sobre mina → roja; sobre celda vacía → azul
+                    # disabledforeground: necesario para que el color se vea con el botón deshabilitado
+                    if tablero[f][c] == -1:
+                        botones[f][c].config(text="🚩", fg="red", disabledforeground="red")
+                    else:
+                        botones[f][c].config(text="🚩", fg="blue", disabledforeground="blue")
+                elif tablero[f][c] == -1:
+                    botones[f][c].config(text="💣", fg="red", disabledforeground="red")  # Mina sin bandera
                 botones[f][c].config(state="disabled")  # Desactivar todos los botones
         game_over_label.config(text="GAME OVER", fg="red")  # Mensaje de derrota
     else:
-        botones[fila][columna].config(text=str(valor), fg="black")
+        botones[fila][columna].config(text=str(valor), fg="black", disabledforeground="black")
         contador_var.set(contador_var.get() + 1)
         botones[fila][columna].config(state="disabled")  # Desactivar el botón presionado
         verificar_victoria()  # Comprobar si el jugador ha ganado
@@ -125,7 +135,7 @@ def alternar_bandera(event, fila, columna):
     if boton["text"] == "🚩":
         boton.config(text="")  # Quitar bandera
     elif boton["state"] == "normal":  # Solo marcar si la celda no ha sido revelada
-        boton.config(text="🚩", fg="blue")  # Colocar bandera
+        boton.config(text="🚩", fg="black")  # Colocar bandera (color neutro durante el juego)
 
 # Inicializar el juego
 generar_tablero()
